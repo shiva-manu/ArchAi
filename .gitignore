@@ -5,3 +5,6 @@ dist/
 .gstack/
 *.log
 *.tsbuildinfo
+
+.qwen/
+gha-creds-*.json
