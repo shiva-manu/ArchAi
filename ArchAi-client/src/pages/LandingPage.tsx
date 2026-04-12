@@ -89,7 +89,7 @@ export function LandingPage() {
       <AnimatedGridBackground />
       <TerminalPrompt />
 
-      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center mx-auto max-w-5xl px-6 pt-20">
+      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center mx-auto max-w-5xl px-6 pt-16">
         {/* Logo + Headline Block */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
