@@ -5,6 +5,7 @@ import { InputPanel } from '@/components/InputPanel'
 import { VisualizationPanel } from '@/components/VisualizationPanel'
 import { DetailsPanel } from '@/components/DetailsPanel'
 import { ImplementationGuidePanel } from '@/components/ImplementationGuidePanel'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { useState } from 'react'
 
 function DashboardHeader() {
@@ -36,12 +37,16 @@ export function DashboardPage() {
         <div className="flex flex-1 min-h-0">
           {/* Left Panel - Input */}
           <div className="w-[320px] shrink-0 flex flex-col border-r border-slate-border/40 bg-obsidian-soft/80">
-            <InputPanel />
+            <ErrorBoundary name="Input Panel">
+              <InputPanel />
+            </ErrorBoundary>
           </div>
 
           {/* Center Panel - Visualization */}
           <div className="flex-1 bg-obsidian relative" style={{ minWidth: 0 }}>
-            <VisualizationPanel />
+            <ErrorBoundary name="Visualization">
+              <VisualizationPanel />
+            </ErrorBoundary>
           </div>
 
           {/* Right Panel - Details / Implementation Guide */}
@@ -69,7 +74,9 @@ export function DashboardPage() {
               </button>
             </div>
             <div className="flex-1 overflow-hidden p-3">
-              {rightPanelTab === 'details' ? <DetailsPanel /> : <ImplementationGuidePanel />}
+              <ErrorBoundary name={rightPanelTab === 'details' ? 'Details Panel' : 'Implementation Guide'}>
+                {rightPanelTab === 'details' ? <DetailsPanel /> : <ImplementationGuidePanel />}
+              </ErrorBoundary>
             </div>
           </div>
         </div>
