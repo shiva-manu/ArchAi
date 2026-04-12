@@ -1,0 +1,288 @@
+/* ─── Google Fonts ─── */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  /* ─── Core Palette ─── */
+  --color-obsidian: #0a0a0c;
+  --color-obsidian-soft: #0f0f13;
+  --color-obsidian-elevated: #141419;
+  --color-obsidian-surface: #1a1a21;
+
+  --color-blueprint: #3b82f6;
+  --color-blueprint-dim: #2563eb;
+  --color-blueprint-glow: #60a5fa;
+
+  --color-cyan: #06b6d4;
+  --color-cyan-dim: #0891b2;
+  --color-cyan-glow: #22d3ee;
+
+  --color-amber: #f59e0b;
+  --color-amber-dim: #d97706;
+  --color-amber-glow: #fbbf24;
+
+  --color-slate-muted: #71717a;
+  --color-slate-faint: #52525b;
+  --color-slate-ghost: #3f3f46;
+  --color-slate-border: #27272a;
+  --color-slate-border-soft: #1e1e24;
+
+  --color-emerald: #10b981;
+  --color-emerald-dim: #059669;
+  --color-rose: #f43f5e;
+  --color-rose-dim: #e11d48;
+
+  /* ─── Semantic Tokens ─── */
+  --color-background: var(--color-obsidian);
+  --color-foreground: #e4e4e7;
+  --color-muted: var(--color-slate-muted);
+  --color-accent: var(--color-cyan);
+  --color-border: var(--color-slate-border);
+  --color-border-soft: var(--color-slate-border-soft);
+  --color-input: var(--color-obsidian-soft);
+  --color-ring: var(--color-cyan);
+  --color-primary: var(--color-obsidian-surface);
+  --color-primary-foreground: #e4e4e7;
+  --color-secondary: var(--color-obsidian-elevated);
+  --color-secondary-foreground: #e4e4e7;
+  --color-popover: var(--color-obsidian);
+  --color-popover-foreground: #e4e4e7;
+  --color-card: var(--color-obsidian-soft);
+  --color-card-foreground: #e4e4e7;
+  --color-destructive: var(--color-rose);
+  --color-destructive-foreground: #e4e4e7;
+
+  --radius: 0.5rem;
+}
+
+/* ─── Base Reset & Typography ─── */
+:root {
+  --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
+  --font-body: 'Source Sans 3', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SF Mono', 'Fira Code', ui-monospace, monospace;
+
+  font: 16px/1.6 var(--font-body);
+  letter-spacing: 0.01em;
+  color-scheme: dark;
+  color: #a3a3a8;
+  background: #0a0a0c;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  width: 100%;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  margin: 0;
+  background: #0a0a0c;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #e4e4e7;
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+code, pre, kbd {
+  font-family: var(--font-mono);
+}
+
+/* ─── Custom Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
+}
+
+/* ─── Blueprint Grid Background ─── */
+.blueprint-grid {
+  background-image:
+    linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.blueprint-grid-fine {
+  background-image:
+    linear-gradient(rgba(59, 130, 246, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.015) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* ─── Dot Grid ─── */
+.dot-grid {
+  background-image: radial-gradient(circle, rgba(59, 130, 246, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ─── Glow Effects ─── */
+.glow-blueprint {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.08), 0 0 60px rgba(59, 130, 246, 0.03);
+}
+.glow-cyan {
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.1), 0 0 60px rgba(6, 182, 212, 0.03);
+}
+.glow-amber {
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.1), 0 0 60px rgba(245, 158, 11, 0.03);
+}
+.text-glow-blueprint {
+  text-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+}
+.text-glow-cyan {
+  text-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+}
+
+/* ─── Scanline Effect ─── */
+.scanline::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+}
+
+/* ─── Noise Texture Overlay ─── */
+.noise::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.015;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* ─── Terminal Prompt Cursor ─── */
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ─── Pulse Ring ─── */
+@keyframes pulse-ring {
+  0% { transform: scale(0.9); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 0; }
+  100% { transform: scale(0.9); opacity: 0; }
+}
+.pulse-ring::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 1px solid currentColor;
+  border-radius: inherit;
+  animation: pulse-ring 3s ease-in-out infinite;
+}
+
+/* ─── Gradient Orbs ─── */
+.orb-blueprint {
+  background: radial-gradient(circle at center, rgba(59, 130, 246, 0.12) 0%, transparent 70%);
+}
+.orb-cyan {
+  background: radial-gradient(circle at center, rgba(6, 182, 212, 0.1) 0%, transparent 70%);
+}
+.orb-amber {
+  background: radial-gradient(circle at center, rgba(245, 158, 11, 0.08) 0%, transparent 70%);
+}
+
+/* ─── React Flow Overrides ─── */
+.react-flow__panel {
+  @apply !bg-obsidian/80 !border-slate-border;
+}
+.react-flow__controls {
+  display: none !important;
+}
+.react-flow__minimap {
+  display: none !important;
+}
+.react-flow__attribution {
+  @apply !bg-transparent !text-zinc-500;
+}
+.react-flow__edge-path {
+  stroke: #3f3f46;
+  stroke-width: 1.5;
+}
+.react-flow__edge.animated .react-flow__edge-path {
+  stroke-dasharray: 6 4;
+  animation: dash-flow 20s linear infinite;
+}
+@keyframes dash-flow {
+  to { stroke-dashoffset: -200; }
+}
+.react-flow__handle {
+  width: 10px !important;
+  height: 10px !important;
+  background: #e4e4e7 !important;
+  border: 2px solid #0a0a0c !important;
+  box-shadow: 0 0 6px rgba(6, 182, 212, 0.3);
+}
+.react-flow__node {
+  cursor: grab;
+  transition: filter 0.2s;
+}
+.react-flow__node:active {
+  cursor: grabbing;
+}
+.react-flow__node:hover {
+  filter: brightness(1.1);
+}
+
+/* ─── Selection ─── */
+::selection {
+  background: rgba(6, 182, 212, 0.2);
+  color: #e4e4e7;
+}
+
+/* ─── Focus Ring ─── */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.4);
+}
+
+/* ─── Utility: Font Classes ─── */
+.font-display { font-family: var(--font-display); }
+.font-body { font-family: var(--font-body); }
+.font-mono { font-family: var(--font-mono); }
+
+/* ─── Reduced Motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .blueprint-grid, .blueprint-grid-fine, .orb-blueprint,
+  .orb-cyan, .orb-amber, .scanline, .noise,
+  .pulse-ring, .glow-blueprint, .glow-cyan, .glow-amber,
+  .cursor-blink {
+    animation: none !important;
+  }
+}
