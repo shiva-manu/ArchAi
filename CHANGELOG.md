@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.1.0] - 2026-04-12
+
+### Added
+- Full test infrastructure — 47 tests across server (33) and client (14) covering Zod schemas, JSON parsing, retry logic, store state, and component rendering
+- CI pipeline with GitHub Actions running both test suites on every push and PR
+- TESTING.md with conventions, test layers, and running instructions
+- CLAUDE.md with testing rules for AI-assisted development
+
+### Changed
+- Test scripts added to both server and client package.json (`npm test`, `npm run test:watch`)
+
 ## [0.1.0.0] - 2026-04-12
 
 ### Added
