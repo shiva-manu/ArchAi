@@ -2,7 +2,7 @@ import { Sparkles, Loader2, AlertCircle, ChevronDown, Terminal, History, Trash2,
 import { cn } from '@/lib/utils'
 import { useDesignStore } from '@/store/useDesignStore'
 import type { UserScale } from '@/types'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 const scales: { value: UserScale; label: string }[] = [
   { value: '1k', label: '1K concurrent' },
@@ -15,11 +15,6 @@ export function InputPanel() {
   const { input, setInput, generateDesign, isLoading, error, savedDesigns, loadDesign, deleteDesign, designId } = useDesignStore()
   const [showHistory, setShowHistory] = useState(false)
   const [copied, setCopied] = useState(false)
-
-  // Refresh history on mount
-  useEffect(() => {
-    useDesignStore.getState().refreshSavedDesigns()
-  }, [])
 
   const handleShare = () => {
     const url = window.location.href
