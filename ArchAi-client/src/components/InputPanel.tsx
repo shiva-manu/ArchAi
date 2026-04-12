@@ -1,7 +1,8 @@
-import { Sparkles, Loader2, AlertCircle, ChevronDown, Terminal } from 'lucide-react'
+import { Sparkles, Loader2, AlertCircle, ChevronDown, Terminal, History, Trash2, Share2, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useDesignStore } from '@/store/useDesignStore'
 import type { UserScale } from '@/types'
+import { useState, useEffect } from 'react'
 
 const scales: { value: UserScale; label: string }[] = [
   { value: '1k', label: '1K concurrent' },
@@ -11,7 +12,22 @@ const scales: { value: UserScale; label: string }[] = [
 ]
 
 export function InputPanel() {
-  const { input, setInput, generateDesign, isLoading, error } = useDesignStore()
+  const { input, setInput, generateDesign, isLoading, error, savedDesigns, loadDesign, deleteDesign, designId } = useDesignStore()
+  const [showHistory, setShowHistory] = useState(false)
+  const [copied, setCopied] = useState(false)
+
+  // Refresh history on mount
+  useEffect(() => {
+    useDesignStore.getState().refreshSavedDesigns()
+  }, [])
+
+  const handleShare = () => {
+    const url = window.location.href
+    navigator.clipboard.writeText(url).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }
 
   return (
     <div className="flex h-full flex-col">
@@ -104,6 +120,55 @@ export function InputPanel() {
 
         {/* Spacer */}
         <div className="flex-1" />
+
+        {/* History + Share row */}
+        {designId && (
+          <div className="flex items-center gap-2 mb-3">
+            <button
+              onClick={handleShare}
+              className="flex-1 flex items-center justify-center gap-1.5 rounded-md border border-slate-border/30 bg-obsidian-soft/50 px-2 py-1.5 text-xs text-zinc-400 transition-colors hover:text-zinc-200 hover:border-slate-border/50"
+              title="Copy share link"
+            >
+              {copied ? <Check className="h-3 w-3 text-emerald-400" /> : <Share2 className="h-3 w-3" />}
+              {copied ? 'Copied!' : 'Share'}
+            </button>
+            <button
+              onClick={() => setShowHistory(!showHistory)}
+              className="flex-1 flex items-center justify-center gap-1.5 rounded-md border border-slate-border/30 bg-obsidian-soft/50 px-2 py-1.5 text-xs text-zinc-400 transition-colors hover:text-zinc-200 hover:border-slate-border/50"
+              title="Past designs"
+            >
+              <History className="h-3 w-3" />
+              History ({savedDesigns.length})
+            </button>
+          </div>
+        )}
+
+        {/* Design History */}
+        {showHistory && savedDesigns.length > 0 && (
+          <div className="mb-3 max-h-40 overflow-y-auto rounded-md border border-slate-border/30 bg-obsidian-soft/50">
+            {savedDesigns.map((d) => (
+              <div
+                key={d.id}
+                className="flex items-center gap-2 border-b border-slate-border/20 px-3 py-2 last:border-b-0"
+              >
+                <button
+                  onClick={() => { loadDesign(d.id); setShowHistory(false) }}
+                  className="flex-1 text-left"
+                >
+                  <p className="text-xs text-zinc-300 truncate">{d.title}</p>
+                  <p className="text-[10px] text-zinc-500">{new Date(d.createdAt).toLocaleDateString()}</p>
+                </button>
+                <button
+                  onClick={() => deleteDesign(d.id)}
+                  className="text-zinc-600 hover:text-rose-400 transition-colors"
+                  title="Delete"
+                >
+                  <Trash2 className="h-3 w-3" />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Generate Button */}
         <div className="pt-4">
