@@ -40,14 +40,14 @@ export function Navbar() {
         </div>
 
         {/* Nav Links — center, equally spaced, flex-1 */}
-        <div className="flex-1 flex items-center justify-center gap-1">
+        <div className="flex-1 flex items-center justify-center">
           {navLinks.map((link) => {
             const isActive = location.pathname === link.to
             return (
               <Link
                 key={link.to}
                 to={link.to}
-                className="relative px-4 py-1.5 text-sm font-medium transition-colors group"
+                className="relative px-5 py-2 text-sm font-medium transition-colors group"
               >
                 <span className={`relative z-10 ${
                   isActive
@@ -59,12 +59,12 @@ export function Navbar() {
                 {isActive && (
                   <motion.div
                     layoutId="active-nav"
-                    className="absolute inset-0 rounded-md bg-zinc-800/60"
+                    className="absolute inset-0 rounded-md bg-zinc-800/70"
                     transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                   />
                 )}
                 {!isActive && (
-                  <div className="absolute inset-0 rounded-md bg-zinc-800/0 group-hover:bg-zinc-800/40 transition-colors" />
+                  <div className="absolute inset-0 rounded-md bg-transparent group-hover:bg-zinc-800/50 transition-colors" />
                 )}
               </Link>
             )
