@@ -1,12 +1,16 @@
 import { Link } from 'react-router-dom'
 import { ReactFlowProvider } from '@xyflow/react'
 import { ArrowLeft, Terminal } from 'lucide-react'
+import { Panel, Group, Separator } from 'react-resizable-panels'
+import type { Layout } from 'react-resizable-panels'
 import { InputPanel } from '@/components/InputPanel'
 import { VisualizationPanel } from '@/components/VisualizationPanel'
 import { DetailsPanel } from '@/components/DetailsPanel'
 import { ImplementationGuidePanel } from '@/components/ImplementationGuidePanel'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
+
+const PANEL_STORAGE_KEY = 'archai-panel-sizes'
 
 function DashboardHeader() {
   return (
@@ -24,8 +28,27 @@ function DashboardHeader() {
   )
 }
 
+function ResizeHandle() {
+  return (
+    <Separator
+      className="relative flex shrink-0 items-center justify-center cursor-col-resize transition-colors group w-1 h-full"
+      disabled={false}
+    >
+      <div className="w-1 h-12 rounded-full bg-slate-border/60 group-hover:bg-cyan-500/50 transition-colors" />
+    </Separator>
+  )
+}
+
 export function DashboardPage() {
   const [rightPanelTab, setRightPanelTab] = useState<'details' | 'guide'>('details')
+
+  const defaultLayout = JSON.parse(
+    typeof window !== 'undefined' ? (localStorage.getItem(PANEL_STORAGE_KEY) || 'null') : 'null'
+  ) as Layout | undefined
+
+  const onLayoutChange = useCallback((layout: Layout) => {
+    localStorage.setItem(PANEL_STORAGE_KEY, JSON.stringify(layout))
+  }, [])
 
   return (
     <ReactFlowProvider>
@@ -33,24 +56,48 @@ export function DashboardPage() {
         {/* Top Bar */}
         <DashboardHeader />
 
-        {/* Main Workspace */}
-        <div className="flex flex-1 min-h-0">
+        {/* Main Workspace — Resizable 3-column layout */}
+        <Group
+          orientation="horizontal"
+          defaultLayout={defaultLayout ?? { input: 22, viz: 53, details: 25 }}
+          onLayoutChange={onLayoutChange}
+          className="flex-1 min-h-0"
+        >
           {/* Left Panel - Input */}
-          <div className="w-[320px] shrink-0 flex flex-col border-r border-slate-border/40 bg-obsidian-soft/80">
+          <Panel
+            id="input"
+            minSize={18}
+            defaultSize={22}
+            className="flex flex-col border-r border-slate-border/40 bg-obsidian-soft/80"
+          >
             <ErrorBoundary name="Input Panel">
               <InputPanel />
             </ErrorBoundary>
-          </div>
+          </Panel>
+
+          <ResizeHandle />
 
           {/* Center Panel - Visualization */}
-          <div className="flex-1 bg-obsidian relative" style={{ minWidth: 0 }}>
+          <Panel
+            id="viz"
+            minSize={30}
+            defaultSize={53}
+            className="bg-obsidian relative"
+          >
             <ErrorBoundary name="Visualization">
               <VisualizationPanel />
             </ErrorBoundary>
-          </div>
+          </Panel>
+
+          <ResizeHandle />
 
           {/* Right Panel - Details / Implementation Guide */}
-          <div className="w-[440px] shrink-0 flex flex-col border-l border-slate-border/40 bg-obsidian-soft/80">
+          <Panel
+            id="details"
+            minSize={18}
+            defaultSize={25}
+            className="flex flex-col border-l border-slate-border/40 bg-obsidian-soft/80"
+          >
             <div className="flex border-b border-slate-border/30">
               <button
                 onClick={() => setRightPanelTab('details')}
@@ -78,8 +125,8 @@ export function DashboardPage() {
                 {rightPanelTab === 'details' ? <DetailsPanel /> : <ImplementationGuidePanel />}
               </ErrorBoundary>
             </div>
-          </div>
-        </div>
+          </Panel>
+        </Group>
       </div>
     </ReactFlowProvider>
   )
