@@ -1,6 +1,7 @@
 import { create } from 'zustand'
-import type { DesignInput, SystemDesign } from '@/types'
-import { generateArchitecture, streamBuildPrompts, type ArchitectureResponse } from '@/services/api'
+import type { DesignInput, SystemDesign, ArchitectureResponse } from '@/types'
+import { generateArchitecture, streamBuildPrompts } from '@/services/api'
+import { logger } from '@/utils/logger'
 
 interface DesignState {
   input: DesignInput
@@ -94,9 +95,11 @@ export const useDesignStore = create<DesignState>((set) => ({
         },
       )
     } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to generate architecture'
+      logger.error('Design generation failed', { message })
       set({
         isLoading: false,
-        error: err instanceof Error ? err.message : 'Failed to generate architecture',
+        error: message,
       })
     }
   },

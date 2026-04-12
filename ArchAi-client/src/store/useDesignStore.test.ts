@@ -56,7 +56,8 @@ describe('useDesignStore', () => {
     const store = useDesignStore.getState();
     store.reset();
 
-    global.fetch = vi.fn(async (url: string) => {
+    window.fetch = vi.fn().mockImplementation(async (input: RequestInfo | URL) => {
+      const url = input.toString();
       if (url.includes('generate-architecture')) {
         return {
           ok: true,
@@ -133,7 +134,7 @@ describe('useDesignStore', () => {
   });
 
   it('captures API error on failed generation', async () => {
-    vi.spyOn(global, 'fetch').mockResolvedValueOnce({
+    vi.spyOn(window, 'fetch').mockResolvedValueOnce({
       ok: false,
       status: 500,
       statusText: 'Internal Server Error',

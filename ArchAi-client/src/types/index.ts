@@ -182,3 +182,111 @@ export interface DesignInput {
   scale: UserScale;
   constraints?: string[];
 }
+
+// ─── API Response Types (used by services/api.ts) ───
+
+export interface ApiTechnology {
+  name: string;
+  purpose: string;
+  alternatives: string[];
+  reason: string;
+}
+
+export interface ApiTechnologyStack {
+  frontend: ApiTechnology[];
+  backend: ApiTechnology[];
+  database: ApiTechnology[];
+  infrastructure: ApiTechnology[];
+  monitoring: ApiTechnology[];
+}
+
+export interface ApiDevelopmentStep {
+  phase: string;
+  title: string;
+  description: string;
+  tasks: string[];
+  estimatedDays: number;
+  dependencies?: string[];
+}
+
+export interface ApiEnvVar {
+  name: string;
+  description: string;
+  example: string;
+}
+
+export interface ApiDeploymentGuide {
+  steps: string[];
+  platforms: string[];
+  environmentVariables: ApiEnvVar[];
+}
+
+export interface ApiCostBreakdown {
+  service: string;
+  cost: number;
+  description: string;
+}
+
+export interface ApiCostEstimate {
+  monthly: number;
+  breakdown: ApiCostBreakdown[];
+  assumptions: string;
+}
+
+export interface ApiImplementationGuide {
+  projectStructure: string;
+  developmentSteps: ApiDevelopmentStep[];
+  technologyStack: ApiTechnologyStack;
+  deploymentGuide: ApiDeploymentGuide;
+  costEstimate: ApiCostEstimate;
+  bestPractices: string[];
+}
+
+export interface ArchitectureResponse {
+  requirements: {
+    entities: string[];
+    features: string[];
+    users: string;
+    constraints: string[];
+  };
+  architecture: {
+    architectureType: 'monolith' | 'microservices';
+    services: { name: string; description: string; tech: string[] }[];
+    database: { type: 'SQL' | 'NoSQL'; reason: string };
+    cache: { type: string; reason: string };
+    queue: { type: string; reason: string };
+  };
+  frontend?: {
+    framework: string;
+    styling: string;
+    stateManagement: string;
+    pages: { name: string; path: string; description: string; components: string[]; features: string[] }[];
+    components: { name: string; type: string; description: string; props?: string[]; state: string[]; apiCalls: string[] }[];
+    layout: string;
+    routing: string;
+  };
+  graph: {
+    nodes: {
+      id: string;
+      type: string;
+      position: { x: number; y: number };
+      data: { label: string; description?: string | null; actions?: string[] | null; stepNumber?: number | null; group?: string | null; buildPrompt?: string | null };
+    }[];
+    edges: {
+      id: string;
+      source: string;
+      target: string;
+      label?: string | null;
+      labelType?: 'read' | 'write' | 'replicate' | 'async' | 'sync' | 'push' | 'pull' | null;
+      stepNumber?: number | null;
+      style?: 'solid' | 'dashed' | null;
+    }[];
+  };
+  explanation: {
+    architectureExplanation: string;
+    apiDesign: { route: string; method: string; description: string }[];
+    scalingStrategy: string;
+    tradeOffs: string[];
+  };
+  implementation?: ApiImplementationGuide;
+}

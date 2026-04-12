@@ -8,7 +8,11 @@
 - [ ] **Feedback button** — Thumbs up/down after generation. localStorage only. ~30 min. Depends on: nothing.
 - [ ] **Light theme toggle** — ThemeProvider in main.tsx, CSS variables, dark variants. ~1-2 hours. Depends on: nothing.
 - [ ] **Per-session rate limiting** — 10 generations max. Server-side. ~1 hour. Depends on: nothing.
-- [ ] **Tests** — No tests exist. Critical gap. Start with unit tests for `architecture.service.ts` pipeline. TBD effort.
+- [x] **Tests** — No tests exist. Critical gap. Start with unit tests for `architecture.service.ts` pipeline. TBD effort. **Completed:** v0.1.1.0 (2026-04-12) — 47 tests: 33 server (schemas, helpers, retry) + 14 client (store, InputPanel). CI pipeline via GitHub Actions.
+
+## Completed
+
+- **Tests** — 47 tests with vitest + React Testing Library. CI on every push/PR. Completed in v0.1.1.0.
 
 ## v2 (Deferred)
 - [ ] Server-side feedback collection endpoint
