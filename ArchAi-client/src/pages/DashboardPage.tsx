@@ -1,6 +1,4 @@
-import { Link } from 'react-router-dom'
 import { ReactFlowProvider } from '@xyflow/react'
-import { ArrowLeft, Terminal } from 'lucide-react'
 import { Panel, Group, Separator } from 'react-resizable-panels'
 import type { Layout } from 'react-resizable-panels'
 import { InputPanel } from '@/components/InputPanel'
@@ -8,25 +6,10 @@ import { VisualizationPanel } from '@/components/VisualizationPanel'
 import { DetailsPanel } from '@/components/DetailsPanel'
 import { ImplementationGuidePanel } from '@/components/ImplementationGuidePanel'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
+import { Navbar } from '@/components/Navbar'
 import { useState, useCallback } from 'react'
 
 const PANEL_STORAGE_KEY = 'archai-panel-sizes'
-
-function DashboardHeader() {
-  return (
-    <div className="flex items-center justify-between border-b border-slate-border/30 px-4 py-2 bg-obsidian-soft/80">
-      <Link to="/" className="flex items-center gap-2 text-zinc-400 hover:text-zinc-200 transition-colors group">
-        <ArrowLeft className="h-3.5 w-3.5 group-hover:-translate-x-0.5 transition-transform" />
-        <Terminal className="h-3 w-3 text-cyan-500/70" />
-        <span className="font-mono text-xs uppercase tracking-wider">Back</span>
-      </Link>
-      <div className="flex items-center gap-2 text-xs font-mono text-zinc-400">
-        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500/70" />
-        ArchAi Workspace
-      </div>
-    </div>
-  )
-}
 
 function ResizeHandle() {
   return (
@@ -53,11 +36,10 @@ export function DashboardPage() {
   return (
     <ReactFlowProvider>
       <div className="h-screen w-screen overflow-hidden bg-obsidian flex flex-col">
-        {/* Top Bar */}
-        <DashboardHeader />
-
-        {/* Main Workspace — Resizable 3-column layout */}
-        <Group
+        <Navbar />
+        <div className="flex-1 min-h-0 pt-14">
+          {/* Main Workspace — Resizable 3-column layout */}
+          <Group
           orientation="horizontal"
           defaultLayout={defaultLayout ?? { input: 22, viz: 53, details: 25 }}
           onLayoutChange={onLayoutChange}
@@ -127,6 +109,7 @@ export function DashboardPage() {
             </div>
           </Panel>
         </Group>
+        </div>
       </div>
     </ReactFlowProvider>
   )

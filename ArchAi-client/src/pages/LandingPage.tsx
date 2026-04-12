@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowRight, Terminal, Cpu, Layers, Zap } from 'lucide-react'
+import { Navbar } from '@/components/Navbar'
+import { Footer } from '@/components/Footer'
 
 const features = [
   {
@@ -82,11 +84,12 @@ export function LandingPage() {
   const navigate = useNavigate()
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-obsidian">
+    <div className="relative flex min-h-screen flex-col bg-obsidian">
+      <Navbar />
       <AnimatedGridBackground />
       <TerminalPrompt />
 
-      <div className="relative z-10 mx-auto max-w-5xl px-6">
+      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center mx-auto max-w-5xl px-6 pt-20">
         {/* Logo + Headline Block */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -195,6 +198,7 @@ export function LandingPage() {
           <span>v1.0.0</span>
         </motion.div>
       </div>
+      <Footer />
     </div>
   )
 }
