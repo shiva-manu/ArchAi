@@ -52,17 +52,33 @@ export class ArchitectureController {
       res.setHeader('X-Accel-Buffering', 'no');
       res.flushHeaders?.();
 
-      // Access the aiService through the architectureService
-      const aiService = (this.architectureService as unknown as { aiService: AIService }).aiService;
-      const stream = aiService.generateBuildPromptsStream(graph, architecture, frontend);
+      let clientDisconnected = false;
+      const onClose = () => {
+        clientDisconnected = true;
+      };
 
-      for await (const { nodeId, buildPrompt } of stream) {
-        res.write(`event: prompt\n`);
-        res.write(`data: ${JSON.stringify({ nodeId, prompt: buildPrompt })}\n\n`);
+      req.on('close', onClose);
+
+      try {
+        // Access the aiService through the architectureService
+        const aiService = (this.architectureService as unknown as { aiService: AIService }).aiService;
+        const stream = aiService.generateBuildPromptsStream(graph, architecture, frontend);
+
+        for await (const { nodeId, buildPrompt } of stream) {
+          if (clientDisconnected) {
+            break;
+          }
+
+          res.write(`event: prompt\ndata: ${JSON.stringify({ nodeId, prompt: buildPrompt })}\n\n`);
+        }
+
+        if (!clientDisconnected) {
+          res.write(`event: done\ndata: {}\n\n`);
+          res.end();
+        }
+      } finally {
+        req.off?.('close', onClose);
       }
-
-      res.write(`event: done\ndata: {}\n\n`);
-      res.end();
     } catch (error) {
       next(error);
     }
